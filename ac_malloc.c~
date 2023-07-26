@@ -8,18 +8,13 @@
 #include <signal.h>
 #include "main.h"
 
-/**
- *envi - print environment variable
- *@en: the environment variable
- *Return: zero
- */
-int envi(char **en)
+char *ac_malloc(int ac, char *str)
 {
-	int i;
-
-	for (i = 0; en[i] != NULL; i++)
+	av = malloc(sizeof(char *) * ac);
+	if (av == NULL)
 	{
-		printf("%s\n", en[i]);
+		free(str);
+	    exit(EXIT_FAILURE);
 	}
-	return (-1);
+	return (av);
 }

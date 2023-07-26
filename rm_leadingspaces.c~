@@ -10,21 +10,19 @@
 
 /**
  *rm_leadingspace - remove the spaces that are at the beginning of a string
- *@strr: str to remove space
+ *@str: str to remove space
  *Return: Nothing;
  */
 
 char *rm_leadingspace(char *strr)
 {
-	int leadingSpaces;
-	int len, i;
 if (strr == NULL)
 {
 	return (NULL);
 }
 
-len = strlen(strr);
-leadingSpaces = 0;
+int len = strlen(strr);
+int leadingSpaces = 0;
 
 
 while (leadingSpaces < len && strr[leadingSpaces] == ' ')
@@ -33,7 +31,7 @@ leadingSpaces++;
 }
 
 
-for (i = 0; i < len - leadingSpaces; i++)
+for (int i = 0; i < len - leadingSpaces; i++)
 {
 strr[i] = strr[i + leadingSpaces];
 }

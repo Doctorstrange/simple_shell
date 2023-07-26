@@ -9,7 +9,7 @@
 #include "main.h"
 
 /**
-  * copydot - prefix function
+  * copy - prefix function
   * @str: string input
   * Return: returning str
   */
@@ -19,17 +19,18 @@ char *copydot(char *str)
 	char *destination = NULL;
 	char *dotSlash;
 
+
+if (str[0] == ' ')
+{
+
 dotSlash = strstr(str, "./");
 
 if (dotSlash != NULL)
 {
-destination = (char *)malloc(strlen(dotSlash) + 1);
-if (destination != NULL)
-{
 strcpy(destination, dotSlash);
-return (destination);
-}
-}
-return (str);
 }
 
+
+}
+return (destination);
+}

@@ -41,10 +41,10 @@ while (1)
 		free(str);
 		exit(0);
 	}
-	if (strcmp(str, "env") == 0)
-	  evc = envi(env);
-	if (evc == -1)
-	  continue;
+if (strcmp(str, "env") == 0)
+evc = envi(env);
+if (evc == -1)
+continue;
 	if (str[0] == '\0')
 		continue;
 	if (non_interspace(str) == -1)
@@ -58,24 +58,20 @@ while (1)
 	ac[0] = strtok(str, delim);
 	if (file_exist(ac[0]) == 0)
 	{
-		printf("file exits\n");
 	count = 0;
 	while (ac[count] != NULL)
 		ac[++count] = strtok(NULL, delim);
-
 	pid = fork();
 	if (pid == -1)
 	{
 		free(str);
-		exit(2);
+		exit(0);
 	}
 	if (pid == 0)
 	{
 		if (execve(ac[0], ac, env) == -1)
 		{
 			free(str);
-		  printf("ac[0] is = %s\n", ac[0]);
-
 		printf("%s No such file or directory\n", arg[0]);
 		exit(2);
 		}
@@ -85,14 +81,15 @@ while (1)
 	}
 	else
 	{
-		printf("%s: 1: %s: not found\n", arg[0], ac[0]);
+			printf("files does not exist\n");
+
 	continue;
 	}
 	continue;
 
 }
 free(str);
-exit(2);
+exit(0);
 return (0);
 
 }

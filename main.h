@@ -17,8 +17,6 @@ char *search_path(char *command, char **env);
 
 int tasktwo(char **arg, char **env);
 
-void deny_sub(void);
-
 char *arguments(char *input);
 
 int token_number(char *input);

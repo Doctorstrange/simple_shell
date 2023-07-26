@@ -9,17 +9,17 @@
 #include "main.h"
 
 /**
- *envi - print environment variable
- *@en: the environment variable
+ *environ - print environment variable
+ *@env: the environment variable
  *Return: zero
  */
-int envi(char **en)
+int environ(env)
 {
 	int i;
 
-	for (i = 0; en[i] != NULL; i++)
+	for (i = 0; env[] != NULL; i++)
 	{
-		printf("%s\n", en[i]);
+		printf("%s\n", env[x]);
 	}
-	return (-1);
+	return (0);
 }

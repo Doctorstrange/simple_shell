@@ -9,20 +9,23 @@
 #include "main.h"
 
 /**
- *token_number - find number of arguments
+ *token number - find number of arguments
  *@input: number of arguments passed
  *Return: int value
  */
 int token_number(char *input)
 {
 int count = 0;
-char *delim = " \n", *token = NULL;
-
+char *delim = " \n\t\r", *token;
 token = strtok(input, delim);
-while (token != NULL)
+if (token == NULL)
 {
-	count++;
+	return (-1);
+}
+while (token)
+{
 	token = strtok(NULL, delim);
+	count++;
 }
 return (count);
 }
