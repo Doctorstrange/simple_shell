@@ -9,8 +9,10 @@
 #include <sys/wait.h>
 
 #define BUFSIZE 64      /* Constant buffer size for sesh_tokenizers */
+#define BUFSIZE2 64
 #define DELIM_I " \t\n" /* Input token delimiter for sesh_tokenizer */
 #define DELIM_P ":"     /* Path token delimiter for sesh_tokenizer_path */
+#define DELIM_C ";"     /* Path token delimiter for sesh_tokenizer_path */
 
 /**
  * struct choose_cmd - Structure for built-in commands
@@ -48,7 +50,8 @@ int validate_spaces(char *input);
 /* Executors */
 int sesh_execute(char **arguments, char **argv, int *exit_status);
 int sesh_execute_builtins(char **args, char *input_stdin,
-                         char **argv, int *exit_status);
+			  char **argv, int *exit_status);
+char **sesh_tokenizerzero(char *input, int *c);
 
 /* Built-in functions */
 int sesh_cd(char **args, char *input_stdin, int *exit_status);

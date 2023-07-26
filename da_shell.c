@@ -9,9 +9,12 @@
 
 int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
+	char **ttoken = NULL;
+
 	char **arguments = NULL; /* Array of tokens obtained from sesh_tokenizer */
 	char *input_stdin = NULL; /* Input string from stdin */
-	int status_return = 1, exit_status = 0;
+	int status_return = 1, exit_status = 0, count = 0, move = 0;
+	int *c = &count;
 	size_t size = 0; /* Size of input_stdin for getline */
 	ssize_t n = 0; /* To check getline return value and EOF */
 
@@ -47,16 +50,29 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			free(input_stdin);
 			continue;
 		}
-
-			/* Split the input_stdin string into tokens */
-		arguments = sesh_tokenizer(input_stdin);
-		if (*arguments[0] == '\0')
+		count = 0;
+		ttoken = sesh_tokenizerzero(input_stdin, c);
+			if (*ttoken[0] == '\0')
 		{
 			continue;
 		}
 
+		while ((*c) >= 0)
+		{
+			/* Split the input_stdin string into tokens */
+			arguments = sesh_tokenizer(ttoken[move]);
+
+		if (*arguments[0] == '\0')
+		{
+			continue;
+		}
+		move++;
+		(*c)--;
+		printf("the value of c is : %d\n", *c);
 		/* Pass the array of tokens to choose from builtin functions */
 		status_return = sesh_execute_builtins(arguments, input_stdin, argv, &exit_status);
+		}
+		free(ttoken);
 		free(input_stdin);
 		free(arguments);
 	}
