@@ -56,7 +56,8 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 		}
 
 		/* Split the input_stdin string into commands if semicolon is present */
-		char **commands = validate_semicolon(input_stdin);
+		char **commands = NULL;
+		commands = validate_semicolon(input_stdin);
 		int i = 0;
 
 		while (commands[i])
