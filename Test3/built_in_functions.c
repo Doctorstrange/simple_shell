@@ -1,4 +1,4 @@
-#include "my_shell.h"
+include "my_shell.h"
 
 /**
  * sesh_cd - Change directory
@@ -42,9 +42,9 @@ int sesh_cd(char **args, char *input_stdin, int *exit_status)
 		perror("Error executing cd");
 
 	/* Add the variable OLDPWD to the environment with the value of current_dir */
-	/* If OLDPWD already exists, overwrite its value to current_dir */
+		/* If OLDPWD already exists, overwrite its value to current_dir */
 	setenv("OLDPWD", current_dir, 1);
-	/* Update the value of PWD with the current working directory */
+		/* Update the value of PWD with the current working directory */
 	setenv("PWD", getcwd(current_dir, sizeof(current_dir)), 1);
 	
 	return (1);

@@ -28,10 +28,10 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			write(STDOUT_FILENO, "#cisfun$ ", 10);
 		}
 
-		/* If we receive Ctrl + c, ignore it, print a new line, and the prompt */
+		/* If we receive "Ctrl + c", ignore it, print a new line, and the prompt */
 		signal(SIGINT, sigintH);
 
-		/* Store the input_stdin string or check for EOF or any error */
+		/* Store the input_stdin string and check for EOF or any error */
 		n = getline(&input_stdin, &size, stdin);
 
 			/* If EOF or any other error is encountered */
@@ -41,47 +41,26 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			break;
 		}
 
-		/* Validate spaces, tabs, and line breaks */
+			/* Validate spaces, tabs, and line breaks */
 		if (validate_spaces(input_stdin))
 		{
 			free(input_stdin);
 			continue;
 		}
 
-		/* Split the input_stdin string into tokens */
+			/* Split the input_stdin string into tokens */
 		arguments = sesh_tokenizer(input_stdin);
+			/* If an empty character is encountered, skip to the next character */
 		if (*arguments[0] == '\0')
 		{
 			continue;
 		}
 
-		/* Split the input_stdin string into commands if semicolon is present */
-		char **commands = NULL;
-		commands = validate_semicolon(input_stdin);
-		int i = 0;
-
-		while (commands[i])
-		{
-			arguments = sesh_tokenizer(commands[i]);
-
-			if (*arguments[0] != '\0')
-			{
-				/* Pass the array of tokens to choose from builtin functions */
-				status_return = sesh_execute_builtins(arguments, input_stdin, argv, &exit_status);
-			}
-
-			free(arguments);
-			i++;
-		}
-
-		free(commands);
+		/* Pass the array of tokens to choose from builtin functions */
+		status_return = sesh_execute_builtins(arguments, input_stdin, argv, &exit_status);
+		free(input_stdin);
+		free(arguments);
 	}
-
-
-	/* Pass the array of tokens to choose from builtin functions */
-	status_return = sesh_execute_builtins(arguments, input_stdin, argv, &exit_status);	
-	free(input_stdin);	
-	free(arguments);
 
 	return (0);
 }

@@ -9,12 +9,9 @@
 
 int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
-	char **ttoken = NULL;
-
 	char **arguments = NULL; /* Array of tokens obtained from sesh_tokenizer */
 	char *input_stdin = NULL; /* Input string from stdin */
-	int status_return = 1, exit_status = 0, count = 0, move = 0;
-	int *c = &count;
+	int status_return = 1, exit_status = 0;
 	size_t size = 0; /* Size of input_stdin for getline */
 	ssize_t n = 0; /* To check getline return value and EOF */
 
@@ -31,10 +28,10 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			write(STDOUT_FILENO, "#cisfun$ ", 10);
 		}
 
-		/* If we receive Ctrl + c, ignore it, print a new line, and the prompt */
+		/* If we receive "Ctrl + c", ignore it, print a new line, and the prompt */
 		signal(SIGINT, sigintH);
 
-		/* Store the input_stdin string or check for EOF or any error */
+		/* Store the input_stdin string and check for EOF or any error */
 		n = getline(&input_stdin, &size, stdin);
 
 			/* If EOF or any other error is encountered */
@@ -50,29 +47,17 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			free(input_stdin);
 			continue;
 		}
-		count = 0;
-		ttoken = sesh_tokenizerzero(input_stdin, c);
-			if (*ttoken[0] == '\0')
-		{
-			continue;
-		}
 
-		while ((*c) >= 0)
-		{
 			/* Split the input_stdin string into tokens */
-			arguments = sesh_tokenizer(ttoken[move]);
-
+		arguments = sesh_tokenizer(input_stdin);
+			/* If an empty character is encountered, skip to the next character */
 		if (*arguments[0] == '\0')
 		{
 			continue;
 		}
-		move++;
-		(*c)--;
-		printf("the value of c is : %d\n", *c);
+
 		/* Pass the array of tokens to choose from builtin functions */
 		status_return = sesh_execute_builtins(arguments, input_stdin, argv, &exit_status);
-		}
-		free(ttoken);
 		free(input_stdin);
 		free(arguments);
 	}
