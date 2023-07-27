@@ -60,9 +60,9 @@ int sesh_env(char **args, char *input_stdin, int *exit_status);
 int sesh_exit(char **args, char *input_stdin, int *exit_status);
 
 /* 6. Helper functions */
-void sigintH(int signum);
-char *str_concat(char *s1, char *s2);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void sigintHandler(int signum);
+char *concat_string(char *str1, char *str2);
+void *mem_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 #endif
 /* MY_SHELL_H */

@@ -1,17 +1,18 @@
 #include "my_shell.h"
 
 /**
- * sesh_cd - Change directory
- * @args: Array of tokens
- * @input_stdin: Input from stdin
- * @exit_status: Exit status
- * Return: 1 (success)
+ * sesh_cd - Changei from current directory
+ * @args: Tokens
+ * @input_stdin: input from stdin
+ * @exit_status: exit status
+ * Return: (1) if successful
  */
+
 int sesh_cd(char **args, char *input_stdin, int *exit_status)
 {
 	/* Check chdir() return value */
 	int stat;
-	
+
 	/* size of the string current_dir */
 	char current_dir[128];
 
@@ -23,17 +24,17 @@ int sesh_cd(char **args, char *input_stdin, int *exit_status)
 
 	/* If user inputs "cd" without any other argument */
 	if (args[1] == NULL)
-		/* Change to home directory */
+		/* Navigate to home directory */
 		stat = chdir(getenv("HOME"));
 	/* If user inputs "cd -" */
 	else if (strcmp(args[1], "-") == 0)
-		/* Change to previous directory */
+		/* Navigate to previous directory */
 		stat = chdir(getenv("OLDPWD"));
 	/* If user inputs "cd ~" */
 	else if (strcmp(args[1], "~") == 0)
 		/* Change to home directory */
 		stat = chdir(getenv("HOME"));
-	/* Change to any path given (absolute or relative) */
+	/* Change to any path given */
 	else
 		stat = chdir(args[1]);
 
@@ -42,11 +43,11 @@ int sesh_cd(char **args, char *input_stdin, int *exit_status)
 		perror("Error executing cd");
 
 	/* Add the variable OLDPWD to the environment with the value of current_dir */
-		/* If OLDPWD already exists, overwrite its value to current_dir */
+	/* Overwrite OLPWD to current_dir */
+	/* set environment to value from getcwd */
 	setenv("OLDPWD", current_dir, 1);
-		/* Update the value of PWD with the current working directory */
 	setenv("PWD", getcwd(current_dir, sizeof(current_dir)), 1);
-	
+
 	return (1);
 }
 
@@ -75,7 +76,8 @@ int sesh_setenv(char **args, char *input_stdin, int *exit_status)
 		/**
 		 * args[0] is setenv,
 		 * args[1] is the environment,
-		 * If args[1] already exists, its value is overwritten to args[2] */
+		 * If args[1] already exists, its value is overwritten to args[2]
+		 */
 		setenv(args[1], args[2], 1);
 
 	/* Check if the number of tokens is exactly 3 */
@@ -112,7 +114,7 @@ int sesh_unsetenv(char **args, char *input_stdin, int *exit_status)
 		/* Delete args[1] from the environment */
 		unsetenv(args[1]);
 	}
-	
+
 	/* Check if the number of tokens is exactly 2 */
 	else if (num_tokens != 2)
 	{
@@ -130,23 +132,23 @@ int sesh_unsetenv(char **args, char *input_stdin, int *exit_status)
  */
 int sesh_env(char **args, char *input_stdin, int *exit_status)
 {
-	int i = 0;
+	int x = 0;
 
 	(void)args;
 	(void)input_stdin;
 	(void)exit_status;
 
 	/* Check if the built-in environment is empty */
-	if (environ[i] == NULL)
+	if (environ[x] == NULL)
 	{
 		printf("%s", "The built-in env is empty");
 		return (1);
 	}
 
 	/* Print the environment variables */
-	for (i = 0; environ[i]; i++)
+	for (x = 0; environ[x]; x++)
 	{
-		printf("%s\n", environ[i]);
+		printf("%s\n", environ[x]);
 	}
 	return (1);
 }
@@ -175,11 +177,12 @@ int sesh_exit(char **args, char *input_stdin, int *exit_status)
 
 	if (args[2] != NULL)
 	{
-		fprintf(stderr, "exit: too many arguments\n");
+		fprintf(stderr, "Exit: too many arguments\n");
 		return (0);
 	}
 
 	exit_code = atoi(args[1]);
+
 	free(args);
 	free(input_stdin);
 	exit(exit_code);

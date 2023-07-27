@@ -2,11 +2,12 @@
 
 /**
  * sesh_execute - Fork process and replace the child with a new program
- * @arguments: String of arguments (tokens)
- * @argv: Array of arguments
- * @exit_status: Exit status
- * Return: Always 1 (success).
+ * @arguments: String of tokens
+ * @argv: array of arguments
+ * @exit_status: exit status
+ * Return: Always 1 if successful.
  */
+
 int sesh_execute(char **arguments, char **argv, int *exit_status)
 {
 	pid_t pid;
@@ -46,7 +47,7 @@ int sesh_execute(char **arguments, char **argv, int *exit_status)
 		/* Wait for the child process to terminate */
 		waitpid(-1, &status, 0);
 
-		/* Check if the child terminated w/o error */
+		/* Check if the child terminated without error */
 		if (WIFEXITED(status))
 		{
 			/* Set the child status to exit_status variable */
@@ -72,8 +73,8 @@ int sesh_execute(char **arguments, char **argv, int *exit_status)
  * @exit_status: Exit status
  * Return: Status to stay or exit the main loop, 1 or 0
  */
-int sesh_execute_builtins(char **args, char *input_stdin,
-                          char **argv, int *exit_status)
+
+int sesh_execute_builtins(char **args, char *input_stdin, char **argv, int *exit_status)
 {
 	int i = 0;
 

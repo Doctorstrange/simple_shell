@@ -1,102 +1,108 @@
 #include "my_shell.h"
 
 /**
- * sigintH - Handles SIGINT (CTRL + C)
- * @signum: Signal number caught by signal, 2 for SIGINIT
+ * sigintHandler - Handles SIGINT (CTRL + C) signal
+ * @signum: Signal number caught by the signal, 2 for SIGINT
  * Return: void
- **/
-void sigintH(int signum)
+ */
+
+void sigintHandler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(2, "\n#(ಠ_ಠ)->$ ", 14);
+		write(2, "\n\n#(ಠ_ಠ)->$  ", 17);
 	}
 }
 
+
 /**
- * str_concat - Concatenate two strings
- * @s1: String 1
- * @s2: String 1
+ * concat_string - Concatenates two strings
+ * @str1: 1st string
+ * @str2: 2nd string
  * Return: Pointer to the concatenated string
  */
-char *str_concat(char *s1, char *s2)
+char *concat_string(char *str1, char *str2)
 {
-	char *s;
-	unsigned int i;
-	unsigned int j;
-	unsigned int k;
+	char *result;
+	unsigned int len1, len2, i, j;
 
-	if (s1 == NULL)
-		s1 = "";
+	if (str1 == NULL)
+	{
+		str1 = "";
+	}
+	if (str2 == NULL)
+	{
+		str2 = "";
+	}
 
-	if (s2 == NULL)
-		s2 = "";
-
-	for (i = 0; s1[i] != '\0'; i++)
+	for (len1 = 0; str1[len1] != '\0'; len1++)
 		continue;
 
-	for (j = 0; s2[j] != '\0'; j++)
+	for (len2 = 0; str2[len2] != '\0'; len2++)
 		continue;
 
-	j = j + 1;
+	len2++;
 
-	s = malloc((i + j) * sizeof(char));
+	result = malloc((len1 + len2) * sizeof(char));
 
-	if (s == NULL)
+	if (result == NULL)
 		return (0);
 
-	for (k = 0; k < (i + j) ; k++)
+	for (i = 0; i < (len1 + len2); i++)
 	{
-		if (k < i)
-			s[k] = s1[k];
-		if (k >= i)
-			s[k] = s2[k - i];
+		if (i < len1)
+			result[i] = str1[i];
+		else
+			result[i] = str2[i - len1];
 	}
-	return (s);
+	return (result);
 }
 
 /**
- * _realloc - Reallocate a memory block
+ * mem_realloc - Reallocate a memory block
  * @ptr: Pointer to array
  * @old_size: Old size
  * @new_size: New size
  * Return: A pointer to the allocated memory
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+
+ void *mem_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	char *s;
-	char *ptr1;
-	unsigned int i;
+    char *newPtr;
+    char *oldPtr;
+    unsigned int i;
 
-	ptr1 = (char *)ptr;
+    if (ptr == NULL)
+        return malloc(new_size);
 
-	if (ptr == NULL)
-		return (malloc(new_size));
-	if (new_size == 0 && ptr != NULL)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	if (new_size == old_size)
-		return (ptr);
+    if (new_size == 0 && ptr != NULL)
+    {
+        free(ptr);
+        return NULL;
+    }
 
-	s = malloc((new_size) * sizeof(char));
-	if (s == NULL)
-	{
-		free(s);
-		return (NULL);
-	}
+    if (new_size == old_size)
+        return ptr;
 
-	if (new_size > old_size)
-	{
-		for (i = 0; i < old_size; i++)
-			s[i] = ptr1[i];
-	}
-	if (new_size < old_size)
-	{
-		for (i = 0; i < new_size; i++)
-			s[i] = ptr1[i];
-	}
-	free(ptr1);
-	return (s);
+    oldPtr = (char *)ptr;
+
+    newPtr = malloc(new_size * sizeof(char));
+    if (newPtr == NULL)
+    {
+        free(newPtr);
+        return NULL;
+    }
+
+    if (new_size > old_size)
+    {
+        for (i = 0; i < old_size; i++)
+            newPtr[i] = oldPtr[i];
+    }
+    else if (new_size < old_size)
+    {
+        for (i = 0; i < new_size; i++)
+            newPtr[i] = oldPtr[i];
+    }
+    free(oldPtr);
+    return newPtr;
 }

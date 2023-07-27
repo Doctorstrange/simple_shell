@@ -34,7 +34,7 @@ char **sesh_tokenizer(char *input)
 		{
 			newBuffer = BUFSIZE * 2;
 			backup_tokens = tokens;
-			tokens = _realloc(tokens, buffer, newBuffer * sizeof(char *));
+			tokens = mem_realloc(tokens, buffer, newBuffer * sizeof(char *));
 			if (tokens == NULL)
 			{
 				free(backup_tokens);
@@ -84,7 +84,7 @@ char **sesh_tokenizer_path(char *input)
 		{
 			newBuffer = BUFSIZE * 2;
 			backup_tokens = tokens;
-			tokens = _realloc(tokens, buffer, newBuffer * sizeof(char *));
+			tokens = mem_realloc(tokens, buffer, newBuffer * sizeof(char *));
 			if (tokens == NULL)
 			{
 				free(backup_tokens);

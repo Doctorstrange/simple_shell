@@ -36,8 +36,8 @@ char *validate_input(char **arguments, char **argv __attribute__((unused)))
 		while (tokens_path[i])
 		{
 			/* check if file exists */
-			first = str_concat(slash_argument, arguments[0]);
-			new_arguments = str_concat(tokens_path[i], first);
+			first = concat_string(slash_argument, arguments[0]);
+			new_arguments = concat_string(tokens_path[i], first);
 
 			if ((access(new_arguments, F_OK) == -1))
 			{
